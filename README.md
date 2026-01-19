@@ -1,7 +1,7 @@
 # Overwatch_enemy_recognition
 
 Overwatch enemy recognition is a small personal studying project where I'm trying to train yolo26-N ai on a dataset to detect the **enemy head**, **enemy body**, **enemy health bar** and **enemy character**.
-The dataset and training was made by me and isn't included in the github for fear of misuse. 
+The dataset and training was made by me and isn't included in the github for fear of misuse and storage issues. 
 If you want to reproduce it yourself (with study purpose only) know that I was using an amd 7700xt GPU and amd 7700 CPU. If you're using something else (smaller gpu or nvdia) you might need to adjust the code for the following.
 
 # Temporary structure
@@ -30,16 +30,16 @@ If you want to reproduce it yourself (with study purpose only) know that I was u
 
 # Creating the environment (windows)
 1. Create the virtual environment named 'ow2_env'
-python -m venv ow2_env
+```python -m venv ow2_env```
 
 2. Activate the environment
 For PowerShell:
-.\ow2_env\Scripts\Activate.ps1
+```.\ow2_env\Scripts\Activate.ps1```
 For CMD:
-.\ow2_env\Scripts\activate.bat
+```.\ow2_env\Scripts\activate.bat```
 
 3. Upgrade pip
-python -m pip install --upgrade pip
+```python -m pip install --upgrade pip```
 
 4. Install all libraries from the requirements file
-pip install -r requirements.txt
+```pip install -r requirements.txt```
