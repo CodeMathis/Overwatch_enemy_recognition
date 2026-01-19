@@ -4,7 +4,7 @@ Overwatch enemy recognition is a small personal studying project where I'm tryin
 The dataset and training was made by me and isn't included in the github for fear of misuse and storage issues.  
 If you want to reproduce it yourself (with study purpose only), know that I was using an amd 7700xt GPU and amd 7700 CPU with 32Go DDR5 ram. If you're using something else (especially a smaller gpu or nvdia) you might need to adjust the code for the following.  
 
-# Temporary structure
+## Temporary structure
 ├── 📂 datasets/  
 │   └── 📂 ow2_data/  
 │       ├── 📄 data.yaml             # Dataset configuration (Classes & Paths)  
@@ -28,7 +28,7 @@ If you want to reproduce it yourself (with study purpose only), know that I was 
 ├── 📄 requirements.txt              # List of dependencies (ultralytics, torch-directml)  
 └── 📄 README.md                     # Documentation  
 
-# Creating the environment (windows)
+## Creating the environment (windows)
 1. Create the virtual environment named 'ow2_env'  
 ```python -m venv ow2_env```
 
@@ -43,3 +43,9 @@ For CMD:
 
 4. Install all libraries from the requirements file
 ```pip install -r requirements.txt```
+
+## Version
+This V1.0 was made in january 2026 and may not work with future overwatch updates.
+
+## Credit
+This readme and most of the scripts were made using gemini
