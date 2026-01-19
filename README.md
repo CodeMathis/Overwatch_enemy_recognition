@@ -5,6 +5,7 @@ The dataset and training was made by me and isn't included in the github for fea
 If you want to reproduce it yourself (with study purpose only), know that I was using an amd 7700xt GPU and amd 7700 CPU with 32Go DDR5 ram. If you're using something else (especially a smaller gpu or nvdia) you might need to adjust the code for the following.  
 
 ## Temporary structure
+```
 ├── 📂 datasets/  
 │   └── 📂 ow2_data/  
 │       ├── 📄 data.yaml             # Dataset configuration (Classes & Paths)  
@@ -27,6 +28,7 @@ If you want to reproduce it yourself (with study purpose only), know that I was 
 ├── 📄 .gitignore                    # Prevents uploading large datasets/weights  
 ├── 📄 requirements.txt              # List of dependencies (ultralytics, torch-directml)  
 └── 📄 README.md                     # Documentation  
+```
 
 ## Creating the environment (windows)
 1. Create the virtual environment named 'ow2_env'  
