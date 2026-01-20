@@ -27,6 +27,7 @@ If you want to reproduce it yourself (with study purpose only), know that I was 
 │   └── 📄 inference.py              # Real-time screen detection script
 ├── 📂 ow2_env/ 
 ├── 📄 .gitignore                    # Prevents uploading large datasets/weights  
+├── 📄 LICENSE
 ├── 📄 requirements.txt              # List of dependencies (ultralytics, torch-directml)  
 └── 📄 README.md                     # Documentation  
 ```
