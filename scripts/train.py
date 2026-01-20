@@ -13,7 +13,7 @@ def start_training():
 
     # 3. Training Configuration
     model.train(
-        data="data.yaml",
+        data="../datasets/ow2_data/data.yaml",
         epochs=100,
         imgsz=640,       # Standard resolution for balanced speed/accuracy
         batch=16,        # Your 7700 XT (12GB) can easily handle 16-32

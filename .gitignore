@@ -1,2 +1,3 @@
 ./ow2_env/*
-./datasets/*
+./datasets/ow2_data/train/*
+./datasets/ow2_data/val/*
