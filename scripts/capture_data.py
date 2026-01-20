@@ -4,63 +4,73 @@ import os
 import time
 from mss import mss
 from datetime import datetime
+from pynput import keyboard
 
 # --- CONFIGURATION ---
-SAVE_PATH = "datasets/ow2_data/train/images"
-# Define the capture region (Center of screen 640x640)
-# Adjust 'top' and 'left' based on your monitor resolution
-monitor = {"top": 220, "left": 640, "width": 640, "height": 640}
-CAPTURE_DELAY = 0.5  # Seconds to wait between captures if in 'auto' mode
+SAVE_PATH = "../datasets/ow2_data/train/images"
+TARGET_SIZE = (640, 640)
+CAPTURE_DELAY = 0.5
 
-# Ensure directory exists
 os.makedirs(SAVE_PATH, exist_ok=True)
+
+# Global state variables
+auto_mode = False
+save_frame_signal = False
+quit_program = False
+
+
+def on_press(key):
+    global auto_mode, save_frame_signal, quit_program
+    try:
+        if key.char == 'k':
+            save_frame_signal = True
+        elif key.char == 'i':
+            auto_mode = not auto_mode
+            print(f">>> Auto-Capture: {'ON' if auto_mode else 'OFF'}")
+        elif key.char == 'l':
+            quit_program = True
+    except AttributeError:
+        pass  # Ignore special keys like Shift/Alt
 
 
 def capture_frames():
+    global save_frame_signal, quit_program, auto_mode
+
+    # Start the global listener in the background
+    listener = keyboard.Listener(on_press=on_press)
+    listener.start()
+
     with mss() as sct:
-        print("--- OW2 Data Capture Tool Started ---")
-        print(f"Saving to: {SAVE_PATH}")
-        print("Controls: \n [K] - Save Frame \n [T] - Toggle Auto-Capture \n [Q] - Quit")
+        monitor = sct.monitors[1]
+        print("--- OW2 Global Data Capture Started ---")
+        print("You can now go back into Overwatch 2.")
+        print("Controls: [K] Save, [I] Toggle Auto, [L] Leave")
 
-        auto_mode = False
         count = 0
+        last_auto_time = time.time()
 
-        while True:
-            # 1. Grab the screen
-            img = np.array(sct.grab(monitor))
+        while not quit_program:
+            sct_img = sct.grab(monitor)
+            frame_full = cv2.cvtColor(np.array(sct_img), cv2.COLOR_BGRA2BGR)
+            frame_resized = cv2.resize(frame_full, TARGET_SIZE, interpolation=cv2.INTER_AREA)
 
-            # 2. Convert BGRA to BGR for OpenCV
-            frame = cv2.cvtColor(img, cv2.COLOR_BGRA2BGR)
+            # Check if it's time to auto-save
+            if auto_mode and (time.time() - last_auto_time >= CAPTURE_DELAY):
+                save_frame_signal = True
+                last_auto_time = time.time()
 
-            # 3. Show the "Viewfinder" so you know what the AI will see
-            display_frame = frame.copy()
-            if auto_mode:
-                cv2.putText(display_frame, "AUTO CAPTURE ON", (10, 30),
-                            cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
-
-            cv2.imshow("Capture Viewfinder", display_frame)
-
-            # 4. Handle Input
-            key = cv2.waitKey(1) & 0xFF
-
-            # Manual Save (Press K) or Auto Save
-            if key == ord('k') or (auto_mode and (time.time() % CAPTURE_DELAY < 0.05)):
+            # Save Execution
+            if save_frame_signal:
                 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
-                filename = f"{SAVE_PATH}/ow2_frame_{timestamp}.jpg"
-                cv2.imwrite(filename, frame)
+                filename = f"{SAVE_PATH}/ow2_{timestamp}.jpg"
+                cv2.imwrite(filename, frame_resized)
                 count += 1
-                print(f"Captured {count}: {filename}")
-                if auto_mode: time.sleep(0.1)  # Prevent double-capturing
+                print(f"[{count}] Saved: {filename}")
+                save_frame_signal = False  # Reset signal
 
-            elif key == ord('t'):
-                auto_mode = not auto_mode
-                print(f"Auto-Capture: {auto_mode}")
-
-            elif key == ord('q'):
-                break
-
+    listener.stop()
     cv2.destroyAllWindows()
-    print(f"Session finished. Total images captured: {count}")
+    print(f"\nSession finished. Total images: {count}")
 
 
 if __name__ == "__main__":
