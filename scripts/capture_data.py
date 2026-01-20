@@ -9,68 +9,83 @@ from pynput import keyboard
 # --- CONFIGURATION ---
 SAVE_PATH = "../datasets/ow2_data/train/images"
 TARGET_SIZE = (640, 640)
-CAPTURE_DELAY = 0.5
+SMART_DELAY = 1  # Check for enemies every 1s
+RANDOM_DELAY = 10  # Capture background every 10s
+MIN_RED_PIXELS = 500
+
+# Red HSV ranges for Overwatch 2 enemy outlines
+LOWER_RED1, UPPER_RED1 = np.array([0, 200, 150]), np.array([5, 255, 255])
+LOWER_RED2, UPPER_RED2 = np.array([175, 200, 150]), np.array([180, 255, 255])
 
 os.makedirs(SAVE_PATH, exist_ok=True)
 
-# Global state variables
 auto_mode = False
-save_frame_signal = False
 quit_program = False
 
 
 def on_press(key):
-    global auto_mode, save_frame_signal, quit_program
+    global auto_mode, quit_program
     try:
-        if key.char == 'k':
-            save_frame_signal = True
-        elif key.char == 'i':
+        if key.char == 'i':
             auto_mode = not auto_mode
-            print(f">>> Auto-Capture: {'ON' if auto_mode else 'OFF'}")
-        elif key.char == 'l':
+            print(f">>> Capture System: {'ON' if auto_mode else 'OFF'}")
+        elif key.char == 'k':
             quit_program = True
     except AttributeError:
-        pass  # Ignore special keys like Shift/Alt
+        pass
+
+
+def is_interesting(frame):
+    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    mask = cv2.bitwise_or(cv2.inRange(hsv, LOWER_RED1, UPPER_RED1),
+                          cv2.inRange(hsv, LOWER_RED2, UPPER_RED2))
+    return np.sum(mask > 0) > MIN_RED_PIXELS
 
 
 def capture_frames():
-    global save_frame_signal, quit_program, auto_mode
-
-    # Start the global listener in the background
+    global quit_program, auto_mode
     listener = keyboard.Listener(on_press=on_press)
     listener.start()
 
     with mss() as sct:
         monitor = sct.monitors[1]
-        print("--- OW2 Global Data Capture Started ---")
-        print("You can now go back into Overwatch 2.")
-        print("Controls: [K] Save, [I] Toggle Auto, [L] Leave")
+        print("--- OW2 Hybrid Capture Active ---")
+        print("[I] Toggle | [K] Quit")
 
-        count = 0
-        last_auto_time = time.time()
+        count_smart = 0
+        count_random = 0
+        last_smart_time = 0
+        last_random_time = time.time()
 
         while not quit_program:
-            sct_img = sct.grab(monitor)
-            frame_full = cv2.cvtColor(np.array(sct_img), cv2.COLOR_BGRA2BGR)
-            frame_resized = cv2.resize(frame_full, TARGET_SIZE, interpolation=cv2.INTER_AREA)
+            if auto_mode:
+                current_time = time.time()
+                sct_img = sct.grab(monitor)
+                frame_full = cv2.cvtColor(np.array(sct_img), cv2.COLOR_BGRA2BGR)
 
-            # Check if it's time to auto-save
-            if auto_mode and (time.time() - last_auto_time >= CAPTURE_DELAY):
-                save_frame_signal = True
-                last_auto_time = time.time()
+                # --- LOGIC 1: SMART CAPTURE (Enemies present) ---
+                if current_time - last_smart_time >= SMART_DELAY:
+                    if is_interesting(frame_full):
+                        save_frame(frame_full, "smart")
+                        count_smart += 1
+                        last_smart_time = current_time
+                        print(f"[+] Smart enemy capture saved ({count_smart})")
 
-            # Save Execution
-            if save_frame_signal:
-                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
-                filename = f"{SAVE_PATH}/ow2_{timestamp}.jpg"
-                cv2.imwrite(filename, frame_resized)
-                count += 1
-                print(f"[{count}] Saved: {filename}")
-                save_frame_signal = False  # Reset signal
+                # --- LOGIC 2: RANDOM CAPTURE (Background/Negative Data) ---
+                if current_time - last_random_time >= RANDOM_DELAY:
+                    save_frame(frame_full, "random")
+                    count_random += 1
+                    last_random_time = current_time
+                    print(f"[*] Random background saved ({count_random})")
 
+            time.sleep(0.01)
     listener.stop()
-    cv2.destroyAllWindows()
-    print(f"\nSession finished. Total images: {count}")
+
+
+def save_frame(frame, prefix):
+    resized = cv2.resize(frame, TARGET_SIZE, interpolation=cv2.INTER_AREA)
+    ts = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+    cv2.imwrite(f"{SAVE_PATH}/{prefix}_{ts}.jpg", resized)
 
 
 if __name__ == "__main__":
