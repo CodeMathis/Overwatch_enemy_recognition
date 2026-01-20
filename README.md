@@ -34,18 +34,19 @@ If you want to reproduce it yourself (with study purpose only), know that I was 
 
 ## Creating the environment (windows)
 1. Create the virtual environment named 'ow2_env'  
-```py -3.11 -m venv ow2_env```
+```py -3.11 -m venv ow2_env```  
+(if you don't have python python 3.11 you can get it [here](https://www.python.org/downloads/release/python-3119))
 
-2. Activate the environment
+3. Activate the environment
 For PowerShell:  
 ```.\ow2_env\Scripts\Activate.ps1```  
 For CMD:  
 ```.\ow2_env\Scripts\activate.bat```
 
-3. Upgrade pip
+4. Upgrade pip
 ```python -m pip install --upgrade pip```
 
-4. Install all libraries from the requirements file
+5. Install all libraries from the requirements file
 ```pip install -r requirements.txt```
 
 ## Version
