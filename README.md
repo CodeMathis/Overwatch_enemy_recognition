@@ -24,7 +24,8 @@ If you want to reproduce it yourself (with study purpose only), know that I was 
 ├── 📂 scripts/  
 │   ├── 📄 capture_data.py           # Script to save screenshots for labeling  
 │   ├── 📄 train.py                  # Training script (DirectML optimized)  
-│   └── 📄 inference.py              # Real-time screen detection script  
+│   └── 📄 inference.py              # Real-time screen detection script
+├── 📂 ow2_env/ 
 ├── 📄 .gitignore                    # Prevents uploading large datasets/weights  
 ├── 📄 requirements.txt              # List of dependencies (ultralytics, torch-directml)  
 └── 📄 README.md                     # Documentation  
@@ -32,7 +33,7 @@ If you want to reproduce it yourself (with study purpose only), know that I was 
 
 ## Creating the environment (windows)
 1. Create the virtual environment named 'ow2_env'  
-```python -m venv ow2_env```
+```py -3.11 -m venv ow2_env```
 
 2. Activate the environment
 For PowerShell:  
