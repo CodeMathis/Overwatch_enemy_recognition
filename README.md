@@ -53,7 +53,8 @@ This V1.0 was made in january 2026 and may not work with future overwatch update
 This readme and most of the scripts were made using gemini
 
 ## ⚖️ License
-This project is licensed under the **Mozilla Public License 2.0 (MPL-2.0)** [![License: MPL 2.0](https://img.shields.io/badge/License-MPL_2.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)
+ [![License: MPL 2.0](https://img.shields.io/badge/License-MPL_2.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)  
+This project is licensed under the **Mozilla Public License 2.0 (MPL-2.0)**
 
 - **Permissive & File-level Copyleft**: You can use this code commercially and combine it with proprietary software.
 - **Obligation**: Any modifications to original MPL-licensed files must be made available under the same license.
