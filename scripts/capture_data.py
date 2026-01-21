@@ -7,7 +7,7 @@ from datetime import datetime
 from pynput import keyboard
 
 # --- CONFIGURATION ---
-SAVE_PATH = "../datasets/ow2_data/train/images"
+SAVE_PATH = "./datasets/preprocessed_images"
 TARGET_SIZE = (640, 640)
 SMART_DELAY = 2  # Check for enemies every 2s
 RANDOM_DELAY = 10  # Capture background every 10s
