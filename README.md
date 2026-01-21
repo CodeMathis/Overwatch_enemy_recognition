@@ -34,7 +34,7 @@ If you want to reproduce it yourself (without ill intent), know that I was using
 
 ## Creating the environment (windows)
 1. Create the virtual environment named 'ow2_env'  
-```python -3.11 -m venv ow2_env```  
+```py -3.11 -m venv ow2_env```  
 (if you don't have python python 3.11 you can get it [here](https://www.python.org/downloads/release/python-3119))
 
 3. Activate the environment
