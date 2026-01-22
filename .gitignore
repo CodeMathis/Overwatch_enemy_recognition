@@ -1,5 +1,5 @@
 ./ow2_env/*
 ./datasets/ow2_data/train/*
 ./datasets/ow2_data/val/*
-models/yolo26n.pt
+./models/yolo26n.pt
 ./datasets/preprocessed_images/*
