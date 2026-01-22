@@ -1,0 +1,9 @@
+# data.yaml
+path: ./datasets/ow2_data
+train: train/images
+val: val/images
+
+nc: 2
+names:
+  0: enemy_body
+  1: enemy_head
