@@ -4,7 +4,11 @@ from mss import mss
 from ultralytics import YOLO
 
 # 1. Load your trained model
-model = YOLO("./models/yolo26n.pt")
+try:
+    model = YOLO("./runs/detect/train/weights/best.pt")
+except Exception as e:
+    print("No model found", e)
+    exit()
 
 # 2. Set up Device
 device = "cpu" # use this commented line when amd drivers are fixed "dml"

@@ -27,8 +27,5 @@ def start_training():
     # Exporting to ONNX allows for faster real-time inference later
     model.export(format="onnx", half=True)
 
-    shutil.move("./yolo26n.pt", "./models/yolo26n.pt")
-    print("--- Training Complete! Model saved to ./models/yolo26n.pt ---")
-
 if __name__ == "__main__":
     start_training()
