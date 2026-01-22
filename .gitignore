@@ -2,4 +2,4 @@
 ./datasets/ow2_data/train/*
 ./datasets/ow2_data/val/*
 models/yolo26n.pt
-./temp
+./datasets/preprocessed_images/*
