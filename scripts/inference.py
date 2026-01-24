@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-import torch_directml
+import torch
 from mss import mss
 from ultralytics import YOLO
 
@@ -12,7 +12,12 @@ except Exception as e:
     exit()
 
 # 2. Set up Device
-device = "cpu" # use this commented line when amd drivers are fixed "dml"
+if torch.cuda.is_available():
+    device = 0
+    print(f"--- Training on NVIDIA GPU: {torch.cuda.get_device_name(0)} ---")
+else:
+    device = "cpu"
+    print("--- /!\ CUDA non détecté, utilisation du CPU ---")
 
 # 3. Capture Area
 with mss() as sct:
@@ -40,7 +45,7 @@ with mss() as sct:
             # Print detected hero names to console
             for box in r.boxes:
                 label = model.names[int(box.cls[0])]
-                print(f"Target Found: {label}")
+                # print(f"Target Found: {label}")
 
         # Display the live feed
         cv2.imshow("OW2 AI Detection", annotated_frame)

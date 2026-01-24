@@ -47,7 +47,10 @@ For CMD:
 ```python -m pip install --upgrade pip```
 
 5. Install all libraries from the requirements file
+For AMD GPU users:
 ```pip install -r requirements.txt```
+For NVIDIA GPU users:
+```pip install -r requirements_nvidia.txt```
 
 ## Version
 This V1.0 was made in january 2026 and may not work with future overwatch updates.
