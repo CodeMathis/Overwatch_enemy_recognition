@@ -43,13 +43,13 @@ For PowerShell:
 For CMD:  
 ```.\ow2_env\Scripts\activate.bat```
 
-4. Upgrade pip
+4. Upgrade pip  
 ```python -m pip install --upgrade pip```
 
-5. Install all libraries from the requirements file
-For AMD GPU users:
-```pip install -r requirements.txt```
-For NVIDIA GPU users:
+5. Install all libraries from the requirements file  
+For AMD GPU users:  
+```pip install -r requirements.txt```  
+For NVIDIA GPU users:  
 ```pip install -r requirements_nvidia.txt```
 
 ## Version
