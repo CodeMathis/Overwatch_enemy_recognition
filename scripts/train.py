@@ -1,31 +1,33 @@
 import torch
-import torch_directml
 from ultralytics import YOLO
-import shutil
 
 def start_training():
-    # 1. Initialize AMD GPU via DirectML
-    device = "cpu" # use this commented line when amd drivers are fixed torch_directml.device()
-    print(f"--- Training on AMD GPU: {torch_directml.device_name(0)} ---")
+    # 1. Vérification NVIDIA CUDA
+    if torch.cuda.is_available():
+        device = 0
+        print(f"--- Training on NVIDIA GPU: {torch.cuda.get_device_name(0)} ---")
+    else:
+        device = "cpu"
+        print("--- /!\ CUDA non détecté, utilisation du CPU ---")
 
-    # 2. Load the newest YOLO26 Nano (Optimized for speed)
+    # 2. Charger le modèle (YOLO11 est la version actuelle la plus rapide)
     model = YOLO("yolo26n.pt")
 
-    # 3. Training Configuration
+    # 3. Configuration de l'entraînement
     model.train(
         data="./datasets/ow2_data/data.yaml",
-        epochs=100,
-        imgsz=640,       # Standard resolution for balanced speed/accuracy
-        batch=16,        # 7700 XT (12GB) can easily handle 16-32
-        device=device,    # DirectML for AMD support
-        workers=4,       # Parallel data loading
+        epochs=200,
+        imgsz=640,
+        batch=12,        # Ajuste à 8 si tu as une erreur de mémoire (VRAM)
+        device=device,
+        workers=4,
         exist_ok=True,
-        amp=False         # Automatic Mixed Precision for faster AMD training
+        amp=True          # Active les Tensor Cores de ta RTX 3050
     )
 
-    # 4. Export for maximum performance
-    # Exporting to ONNX allows for faster real-time inference later
-    model.export(format="onnx", half=True)
+    # 4. Export optimal pour NVIDIA
+    print("--- Exportation en format TensorRT (.engine) ---")
+    model.export(format="onnx", half=True, device=device)
 
 if __name__ == "__main__":
     start_training()
