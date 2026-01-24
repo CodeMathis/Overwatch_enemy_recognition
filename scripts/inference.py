@@ -1,11 +1,12 @@
 import cv2
 import numpy as np
+import torch_directml
 from mss import mss
 from ultralytics import YOLO
 
 # 1. Load your trained model
 try:
-    model = YOLO("./runs/detect/train/weights/best.pt")
+    model = YOLO("./runs/detect/train/weights/best.onnx", task="detect")
 except Exception as e:
     print("No model found", e)
     exit()
