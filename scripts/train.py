@@ -22,7 +22,7 @@ def start_training():
         device=device,
         workers=4,
         exist_ok=True,
-        amp=True          # Active les Tensor Cores de ta RTX 3050
+        amp=True          # Active les Tensor Cores de RTX 3050
     )
 
     # 4. Export optimal pour NVIDIA
