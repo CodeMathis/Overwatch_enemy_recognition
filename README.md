@@ -53,7 +53,7 @@ For NVIDIA GPU users:
 ```pip install -r requirements_nvidia.txt```
 
 ## Version
-This V1.0 was made in january 2026 and may not work with future overwatch updates.
+This V1.0 was made in january 2026 and may not work with future overwatch updates
 
 ## Credit
 This readme and most of the scripts were made using gemini
