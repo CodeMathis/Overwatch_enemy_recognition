@@ -5,6 +5,7 @@ The dataset and training was made by me and isn't included in the github for fea
 If you want to reproduce it yourself (without ill intent), know that I was using an amd 7700xt GPU and amd 7700 CPU with 32Gb DDR5 ram for inference. And for training I was using a laptop with a rtx 3050 and 16Gb of ram. If you're using something else (especially a smaller gpu) you might need to adjust the code for the following. Also, try to keep the same resolution in game, in my case I chose low settings.
 
 [![Regarder la vidéo de démonstration](https://img.youtube.com/vi/mMMnnl_i4jY/maxresdefault.jpg)](https://www.youtube.com/watch?v=mMMnnl_i4jY)
+
 ## Project structure
 ```
 ├── 📂 datasets/  
