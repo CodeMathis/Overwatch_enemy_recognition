@@ -6,7 +6,7 @@ If you want to reproduce it yourself (without ill intent), know that I was using
 
 ![gif V9 267 images dataset result](./V9_267_images_dataset_result.gif)
 
-## Temporary structure
+## Project structure
 ```
 ├── 📂 datasets/  
 │   └── 📂 ow2_data/  
